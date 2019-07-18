@@ -141,7 +141,7 @@ def display_loss_metric_curves(nb_epochs, history):
     plt.show()
 
     
-DIR_left = 'C:/Users/carlo/OneDrive/Documents/PhD/Databases/Eye Blink/dataset_B_Eye_Images/Images2'
+DIR_left = 'Train Data/Blink Data'
 
 nb_epochs = 50
 batch_sz = 32
