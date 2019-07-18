@@ -11,7 +11,6 @@ import cv2
 import Face_ROI_Dlib_generator as frg
 from keras.models import load_model
 
-
 def EyeClassification(img,model,ROI_Corners,eye_sz):
     left = int(np.amin(ROI_Corners[:,0]))
     up = int(np.amin(ROI_Corners[:,1]))
@@ -37,7 +36,7 @@ def cnnPreprocess(img2,height,width):
 # Initialize the face frontal detector from Dlib
 face_detector = dlib.get_frontal_face_detector()
 #Initialize the facial landmarks predictor from Dlib
-face_predictor = dlib.shape_predictor("Face_landmarks/shape_predictor_68_face_landmarks.dat")
+face_predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 #Activate the webcam using OpenCV
 camera = cv2.VideoCapture(0)
@@ -61,8 +60,7 @@ eyeb_right = np.zeros([5,2,15])
 nose = np.zeros([5,2,15])
 mouth = np.zeros([12,2,15])
 
-
-blink_model = load_model('Blink_model.hdf5')
+blink_model = load_model('Train Data/Blink_model.hdf5')
 eye_sz = blink_model.layers[0].input_shape
 
 while(True):
@@ -78,8 +76,6 @@ while(True):
         ## Choose first detected face
         shape = detections[0]
         (init_det_x, init_det_y, face_width, face_height) = rect_to_bb(shape)
-#        Paint detected face rectangle
-#        cv2.rectangle(frame, (init_det_x, init_det_y), (init_det_x + face_width, init_det_y + face_height), (0, 255, 255), 2)
         detect_flag = False
         predict_flag = True
 #        Update detected face location
@@ -110,8 +106,6 @@ while(True):
         face_box_w = np.rint(init_det_x + face_width + face_det_deriv_x).astype(int)
         face_box_h = np.rint(init_det_y + face_height + face_det_deriv_y).astype(int)
         predicted_shape =  dlib.rectangle(face_box_x, face_box_y, face_box_w, face_box_h)
-#        (x, y, w, h) = rect_to_bb(predicted_rectangle)
-#        cv2.rectangle(frame, (face_box_x, face_box_y), (face_box_w, face_box_h), (0, 255, 0), 2)
         old_face_det_x = new_face_det_x
         old_face_det_y = new_face_det_y
         
